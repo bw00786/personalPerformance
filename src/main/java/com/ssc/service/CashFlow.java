@@ -42,7 +42,7 @@ class CashFlow {
         double days = daysInMonth.get(month);
         System.out.println("days "+days);
         if (month.equals("February") && isLeapYear(year)) {
-            days = 29; // Adjust for leap year.
+            days = 29.0; // Adjust for leap year.
         }
         double ff = (days - cashFlows.dayOfMonth)/ days;
         System.out.println("Computeres WCH without cashFlows" + ff);
@@ -50,6 +50,8 @@ class CashFlow {
         System.out.println("days from calculatedWeighted " + days);
         System.out.println("cashFlow " + cashFlow);
         System.out.println("cashFlows " + cashFlows.dayOfMonth);
+        System.out.println("year is " + year);
+        System.out.println("month is " + month);
         System.out.println("computed weightedCashFlow" + weightedCashFlow);
         //return cashFlow *  (( days - cashFlows.dayOfMonth)/ days);
         return weightedCashFlow;
