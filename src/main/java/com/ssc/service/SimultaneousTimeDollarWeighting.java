@@ -58,7 +58,7 @@ public class SimultaneousTimeDollarWeighting {
         double totalDollarWeightedCashFlow = 0.0;
         for (CashFlow cashFlow : cashFlows) {
             totalDollarWeightedCashFlow += cashFlow.calculateDollarWeightedCashFlow(cashFlow);
-            System.out.println("Summation of totalDollarWeightedCashFlow "+totalDollarWeightedCashFlow);
+            System.out.println("Summation of totalDollarWeightedCashFlow this is a test"+totalDollarWeightedCashFlow);
         }
         System.out.println("totalDollarWeightedCashFlow ="+totalDollarWeightedCashFlow);
         return totalDollarWeightedCashFlow;
