@@ -1,0 +1,27 @@
+name: Code Review with ChatGPT
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: pip install openai
+
+      - name: Run code review
+        run: python .github/scripts/code_review.py ${{ github.event.pull_request.head.repo.full_name }} ${{ github.event.pull_request.head.sha }}
+        env:
+          GPT_API_KEY: ${{ secrets.GPT_API_KEY }}
