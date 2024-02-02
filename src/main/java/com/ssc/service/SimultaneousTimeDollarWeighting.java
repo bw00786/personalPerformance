@@ -32,9 +32,9 @@ public class SimultaneousTimeDollarWeighting {
 
     private static List<CashFlow> createSampleCashFlows() {
         List<CashFlow> cashFlows = new ArrayList<>();
-        cashFlows.add(new CashFlow("January", 10.0,15,2022));
-        cashFlows.add(new CashFlow("February", 50.0,7,2022));
-        cashFlows.add(new CashFlow("March", 20.0,20,2022));
+        cashFlows.add(new CashFlow("January", 10.0,15,2023));
+        cashFlows.add(new CashFlow("February", 50.0,7,2023));
+        cashFlows.add(new CashFlow("March", 20.0,20,2023));
         return cashFlows;
     }
 
