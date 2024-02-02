@@ -9,7 +9,7 @@ public class SimultaneousTimeDollarWeighting {
     public static void main(String[] args) {
         double initialBalance = 1000.0;
         double endingBalance = 1200.0;
-        int year = 2021;
+        int year = 2023;
 
         List<CashFlow> cashFlows = createSampleCashFlows();
 
