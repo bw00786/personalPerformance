@@ -1,0 +1,24 @@
+# Spring server configuration
+server:
+    port: 8700
+
+# Spring Data JPA configuration
+spring:
+    jpa:
+        database: postgresql # Adjust based on your YugabyteDB flavor
+        hibernate:
+            ddl-auto: none # Prevent automatic schema creation/updates
+        properties:
+            hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect # Adjust based on your YugabyteDB flavor
+            hibernate.hikari:
+                dataSourceClassName: com.yugabyte.Driver # Use YugabyteDB JDBC driver
+                jdbcUrl: jdbc:yugabytedb://localhost:<port>/yugabyte # Replace with your YugabyteDB connection details
+                username: yugabyte
+                password: yugabyte
+                poolName: HikariPool
+            show-sql: true # Enable SQL logging for development
+
+# Logging configuration
+logging:
+    level:
+        org.hibernate.SQL: DEBUG # Detailed SQL logging for debugging

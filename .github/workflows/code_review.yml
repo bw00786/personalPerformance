@@ -1,19 +1,59 @@
+name: Code Review
+
 on:
   pull_request:
-    types: [opened, synchronize]
+    branches: [main]
 
 jobs:
-  hello_world_job1:
+
+  code-review:
     runs-on: ubuntu-latest
-    name: ChatGPT explain code
+
     steps:
-      - name: ChatGTP explain code
-        uses: bw00786/personalPerformance
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          openai_api_key: ${{ secrets.openai_api_key }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_pr_id: ${{ github.event.number }}
-          openai_engine: "text-davinci-002" #optional
-          openai_temperature: 0.5 #optional
-          openai_max_tokens: 2048 #optional
-          mode: file # file or patch
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install llama2 transformers
+
+      - name: Retrieve code changes
+        id: diff
+        uses: actions/github-script@v6
+        with:
+          result-encoding: string
+          script: |
+            const diffUrl = context.payload.pull_request.diff_url
+            const response = await fetch(diffUrl)
+            const diffData = await response.text()
+            return diffData
+
+      - name: Run code review
+        id: code-review
+        env:
+          DIFF_DATA: ${{ steps.diff.outputs.result }}
+        run: |
+          import llama2
+          from llama2 import CodeReviewer
+
+          code_reviewer = CodeReviewer.from_pretrained("decapodcalc/alpaca-code-review-7b")
+
+          code_changes = "$DIFF_DATA"
+          feedback = code_reviewer.review_code(code_changes)
+
+          print(f"::set-output name=feedback::{feedback}")
+
+      - name: Post code review feedback
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const feedback = "${{ steps.code-review.outputs.feedback }}"
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: feedback
+            })
